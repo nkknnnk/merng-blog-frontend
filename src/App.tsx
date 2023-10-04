@@ -1,24 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {useEffect} from "react";
+import "./App.css";
+import Homepage from "./components/home/Homepage";
+import Header from "./components/header/Header";
+import Footer from "./components/home/Footer";
+import { Routes, Route } from "react-router-dom";
+import Blogs from "./components/blogs/Blogs";
+import Auth from "./components/auth/Auth";
+import {useSelector, useDispatch} from "react-redux"
+import { authActions } from "./store/auth-slice";
+import AddBlog from "./components/blogs/AddBlog";
+import Profile from "./components/header/user/Profile";
+import ViewBlog from "./components/blogs/ViewBlog";
+import { Toaster } from "react-hot-toast";
+import UpdateBlog from "./components/blogs/UpdateBlog";
 
 function App() {
+  const dispatch = useDispatch()
+  const isLoggedIn = useSelector((state: any)=>state.isLoggedIn);
+  console.log(isLoggedIn)
+  useEffect(() => {
+    const data: string = localStorage.getItem("userData") as string
+    if(JSON.parse(data) !==null) {
+      dispatch(authActions.login())
+    }
+    // eslint-disable-next-line
+  }, [])
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="wrapper">
+    <Toaster />
+      <header>
+        <Header />
       </header>
+      <main>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/add" element={<AddBlog />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/blog/view/:id" element={<ViewBlog />} />
+          <Route path="/blog/update/:id" element={<UpdateBlog />} />
+        </Routes>
+      </main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
