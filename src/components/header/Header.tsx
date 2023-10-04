@@ -32,12 +32,12 @@ const Header = () => {
             backgroundColor: "#6c5252",
           }}
         />
-        <Box onClick={()=>navigate("/add")} sx={headerStyles.addLink}>
+        {isLoggedIn&&<Box onClick={()=>navigate("/add")} sx={headerStyles.addLink}>
           <Typography fontSize={20} fontFamily="Work Sans">Post New Blog</Typography>
           <IconButton color="inherit">
             <ImBlogger />
           </IconButton>
-        </Box>
+        </Box>}
         <Box sx={headerStyles.tabContainer}>
           <Tabs
             textColor="inherit"
